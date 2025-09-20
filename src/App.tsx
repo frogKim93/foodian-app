@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes, useLocation} from "react-router-dom";
+import {Path} from "./routes/Paths.ts";
+import {KakaoAuth} from "./pages/kakaoAuth/KakaoAuth.tsx";
+import {Login} from "./pages/login/Login.tsx";
+import {MenuBar} from "./component/menuBar/MeneBar.tsx";
+import {Fridge} from "./pages/fridge/Fridge.tsx";
+import {Setting} from "./pages/setting/Setting.tsx";
+import {Members} from "./pages/member/Member.tsx";
+import {Signup} from "./pages/signup/Signup.tsx";
+import {Onboarding} from "./pages/onboarding/Onboarding.tsx";
+import {Home} from "./pages/home/Home.tsx";
+import {Statistics} from "./pages/statistics/Statistics.tsx";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const noMenubarPages = [Path.LOGIN, Path.SIGNUP, Path.ONBOARDING, Path.DEFAULT];
+    const location = useLocation();
+
+    return (
+        <>
+            <Routes>
+                <Route path={Path.HOME} element={<Home/>}/>
+                <Route path={Path.KAKAO_AUTH_REDIRECT} element={<KakaoAuth/>}/>
+                <Route path={Path.LOGIN} element={<Login/>}/>
+                <Route path={Path.SIGNUP} element={<Signup/>}/>
+                <Route path={Path.ONBOARDING} element={<Onboarding/>}/>
+                <Route path={Path.MEMBER} element={<Members/>}/>
+                <Route path={Path.SETTING} element={<Setting/>}/>
+                <Route path={Path.FRIDGE} element={<Fridge/>}/>
+                <Route path={Path.STATISTICS} element={<Statistics/>}/>
+                <Route path="*" element={<Login/>}/>
+            </Routes>
+            {!noMenubarPages.includes(location.pathname) && <MenuBar/>}
+        </>
+    )
 }
 
-export default App;
+export default App
