@@ -54,6 +54,11 @@ body {
     overflow: hidden;
 }
 
+.card .error-msg {
+    float: right;
+    color: red;
+}
+
 .header {
     padding: 28px 28px 8px;
     text-align: center;
