@@ -1,0 +1,110 @@
+.family-setup {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    background: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.family-setup h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.family-setup .subtitle {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.family-setup section {
+    margin-bottom: 24px;
+}
+
+.family-setup h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.family-setup form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.family-setup input[type="text"] {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: #43a047;
+}
+
+.btn-secondary {
+    background-color: #2196F3;
+    color: #fff;
+}
+.btn-secondary:hover {
+    background-color: #1976D2;
+}
+
+.error {
+    background: #fdecea;
+    color: #d32f2f;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+
+.family-setup hr {
+    margin: 28px 0;
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.only-leader-storage {
+    margin-left: 5px;
+    font-size: 10px;
+    color: red;
+}
+
+/* 다크 모드 대응 */
+@media (prefers-color-scheme: dark) {
+    .family-setup {
+        background: #1e1e1e;
+        color: #eee;
+    }
+    .family-setup input[type="text"] {
+        background: #2b2b2b;
+        border-color: #444;
+        color: #eee;
+    }
+    .error {
+        background: #3a1f1f;
+        color: #ffb4a6;
+    }
+}

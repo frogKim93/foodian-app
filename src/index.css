@@ -59,6 +59,14 @@ body {
     color: red;
 }
 
+.text-12 {
+    font-size: 12px;
+}
+
+.text-bolder {
+    font-weight: bold;
+}
+
 .header {
     padding: 28px 28px 8px;
     text-align: center;

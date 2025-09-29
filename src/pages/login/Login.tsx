@@ -1,11 +1,43 @@
 import {Path} from "../../routes/Paths.ts";
 import {useNavigate} from "react-router-dom";
+import type {ChangeEvent, FormEvent} from "react"
+import {useState} from "react";
+import type {LoginDto} from "./dto/login.dto.ts";
+import {InitialLoginDto} from "./dto/login.dto.ts";
+import axios, {HttpStatusCode} from "axios";
+import {LOGIN_API} from "../../api/Api.ts";
+import {useUser} from "../../contexts/UserContext.tsx";
 
 export const Login = () => {
     const navigate = useNavigate();
+    const [loginDto, setLoginDto] = useState<LoginDto>(InitialLoginDto());
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const {setUser} = useUser();
 
     const loginHandler = () => {
         window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=04b31b8e55e1625e2f2bc133d1a18115&redirect_uri=http://localhost:5173/kakao-auth&response_type=code`;
+    };
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setLoginDto(prev => ({...prev, [name]: value}));
+    };
+
+    const login = (event: FormEvent) => {
+        event.preventDefault();
+        setErrorMessage("");
+
+        axios.post(LOGIN_API, loginDto).then(response => {
+            setUser(response.data);
+            navigate(Path.FAMILY_SETUP);
+        }).catch(error => {
+            if (error.status === HttpStatusCode.Unauthorized || error.status === HttpStatusCode.BadRequest) {
+                setErrorMessage("아이디, 비밀번호를 다시 확인해주세요.");
+            } else {
+                console.log(error);
+                setErrorMessage("서버에 문제가 발생하였습니다. \n잠시 후 다시 시도해주세요.");
+            }
+        });
     };
 
     return (
@@ -24,8 +56,9 @@ export const Login = () => {
                         <label htmlFor="email">이메일</label>
                         <div className="input">
                             <img src="/image/icon/email.svg"/>
-                            <input id="email" name="email" type="email" inputMode="email" autoComplete="email"
-                                   placeholder="you@example.com" required/>
+                            <input id="email" name="username" type="email" inputMode="email" autoComplete="email"
+                                   placeholder="you@example.com" required
+                                   onChange={handleChange}/>
                         </div>
                     </div>
 
@@ -34,17 +67,15 @@ export const Login = () => {
                         <div className="input">
                             <img src="/image/icon/password.svg"/>
                             <input id="password" name="password" type="password" autoComplete="current-password"
-                                   placeholder="비밀번호" minLength={6} required/>
+                                   placeholder="비밀번호" minLength={6} required
+                                   onChange={handleChange}/>
                         </div>
                     </div>
 
-                    <div className="row" aria-label="부가 옵션">
-                        <label className="checkbox"><input type="checkbox" id="remember" name="remember"/>기억하기</label>
-                        <a className="links-a" href={Path.ONBOARDING}>아이디/비밀번호 찾기</a>
-                    </div>
+                    <span className="error-msg text-12 text-bolder">{errorMessage}</span>
 
                     <div className="actions">
-                        <button onClick={() => navigate(Path.ONBOARDING)} className="btn btn-primary">로그인</button>
+                        <button onClick={login} className="btn btn-primary">로그인</button>
                         <button onClick={() => loginHandler()} className="btn btn-kakao" aria-label="카카오로 로그인">
                             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
                                 <path

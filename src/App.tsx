@@ -10,18 +10,21 @@ import {Signup} from "./pages/signup/Signup.tsx";
 import {Onboarding} from "./pages/onboarding/Onboarding.tsx";
 import {Home} from "./pages/home/Home.tsx";
 import {Statistics} from "./pages/statistics/Statistics.tsx";
+import {UserProvider} from "./contexts/UserContext.tsx";
+import {FamilySetup} from "./pages/familySetup/FamilySetup.tsx";
 
 function App() {
-    const noMenubarPages = [Path.LOGIN, Path.SIGNUP, Path.ONBOARDING, Path.DEFAULT];
+    const noMenubarPages = [Path.LOGIN, Path.SIGNUP, Path.FAMILY_SETUP, Path.ONBOARDING, Path.DEFAULT];
     const location = useLocation();
 
     return (
-        <>
+        <UserProvider>
             <Routes>
                 <Route path={Path.HOME} element={<Home/>}/>
                 <Route path={Path.KAKAO_AUTH_REDIRECT} element={<KakaoAuth/>}/>
                 <Route path={Path.LOGIN} element={<Login/>}/>
                 <Route path={Path.SIGNUP} element={<Signup/>}/>
+                <Route path={Path.FAMILY_SETUP} element={<FamilySetup/>}/>
                 <Route path={Path.ONBOARDING} element={<Onboarding/>}/>
                 <Route path={Path.MEMBER} element={<Members/>}/>
                 <Route path={Path.SETTING} element={<Setting/>}/>
@@ -30,7 +33,7 @@ function App() {
                 <Route path="*" element={<Login/>}/>
             </Routes>
             {!noMenubarPages.includes(location.pathname) && <MenuBar/>}
-        </>
+        </UserProvider>
     )
 }
 
